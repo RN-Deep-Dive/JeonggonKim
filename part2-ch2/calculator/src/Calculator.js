@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components';
+import { useCalculator } from '../use-calculator';
 
 const COLOR = {
   RESULT: '#4e4c51',
@@ -49,74 +50,17 @@ const InputContainer= styled.View`
 `;
 
 export default () => {
-  const [input, setInput] = useState(0);
-  const [currentOperator, setCurrentOperator] =useState(null);
-  const [result, setResult] = useState(null);
-  const [tempInput, setTempInput] = useState(null);
-  const [tempOperator, setTempOperator] = useState(null);
-  const [isClickedOperator, setIsClickedOperator] = useState(false);
-  const [isClickedEqual, setIsClickedEqual] = useState(false);
-
-  // const hasInput = input ? true : false;
-  const hasInput = !!input;
-
-  const onPressNum = (num) => {
-    if(currentOperator  && isClickedOperator) {
-      setResult(input);
-      setInput(num);
-      setIsClickedOperator(false);
-    } else {
-      const newInput = Number(`${input}${num}`); 
-      setInput(newInput);
-
-    }
-  }
-  
-  const onPressOperator = (operator) => {
-    if (operator !== "=") {
-      setCurrentOperator(operator);
-      setIsClickedOperator(true);
-      setIsClickedEqual(false);
-    } else {
-        let finalResult = result;
-        const finalInput = isClickedEqual ? tempInput : input;
-        const finalOperator = isClickedEqual ? tempOperator:currentOperator;
-        switch (finalOperator){
-          case '+':
-            finalResult = result + finalInput;
-            break;
-          case '-':
-            finalResult = result - finalInput;
-            break;
-          case '*':
-            finalResult = result * finalInput;
-            break;
-          case '/':
-            finalResult = result / finalInput;
-            break;
-          default:
-            break;  
-        }
-        setResult(finalResult);
-        setInput(finalResult);
-        setTempInput(finalInput);
-        setCurrentOperator(null);
-        setTempOperator(finalOperator);
-        setIsClickedEqual(true);
-      }
-  }
-
-  const onPressReset = () => {
-    if (hasInput) {
-      setInput(0);
-    } else {
-      setInput(0);
-      setCurrentOperator(0);
-      setResult(0);
-      setTempInput(0);
-      setTempOperator(0);
-    }
-  }
+  const {
+    input,
+    currentOperator,
+    result,
+    tempInput,
+    tempOperator,
+    hasInput,
+    onPressNum,
+    onPressOperator,
+    onPressReset,
+  } = useCalculator();
 
   return (
     <View style={{flex:1, width: "60%", justifyContent:"center"}}>

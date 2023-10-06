@@ -8,7 +8,8 @@ export const useCalculator = () => {
     const [tempOperator, setTempOperator] = useState(null);
     const [isClickedOperator, setIsClickedOperator] = useState(false);
     const [isClickedEqual, setIsClickedEqual] = useState(false);
-  
+    const [hardReset, setHardReset] =useState(false);
+
     // const hasInput = input ? true : false;
     const hasInput = !!input;
   
@@ -18,9 +19,17 @@ export const useCalculator = () => {
         setInput(num);
         setIsClickedOperator(false);
       } else {
-        const newInput = Number(`${input}${num}`); 
-        setInput(newInput);
-  
+        if (isClickedEqual){
+          setIsClickedEqual(false);
+          setHardReset(true);
+          onPressReset();
+          setInput(num);
+          setIsClickedOperator(false);
+        }
+        else {
+          const newInput = Number(`${input}${num}`); 
+          setInput(newInput); 
+        }
       }
     }
     
@@ -60,8 +69,18 @@ export const useCalculator = () => {
   
     const onPressReset = () => {
       if (hasInput) {
-        setInput(0);
-  
+        if (hardReset){
+          console.log('1')
+          setInput(0);
+          setCurrentOperator(0);
+          setResult(0);
+          setTempInput(0);
+          setTempOperator(0);
+          setHardReset(false);
+        }
+        else {
+          setInput(0);
+        }
       } else {
         setInput(0);
         setCurrentOperator(0);
@@ -69,7 +88,6 @@ export const useCalculator = () => {
         setTempInput(0);
         setTempOperator(0);
       }
-  
     }   
 
     return {

@@ -15,7 +15,7 @@ export class ScreenA extends React.Component {
         <Button
           title='C스크린으로 이동하기'
           onPress={()=> {
-            this.props.navigation.navigate('Nested', {screen:'ScreenC'});
+            this.props.navigation.navigate('NestedNavigator', {screen:'ScreenC'});
           }} 
         />
       </View>
